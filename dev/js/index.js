@@ -5,39 +5,39 @@ import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 // React component
 class anyComponent extends Component {
-  constructor(props) {
-    super(props);
-	
-    this.state = {
-      foods: []
-    };
+	constructor(props) {
+		super(props);
 
-  }
+		this.state = {
+			foods: []
+		};
+
+	}
 
 
 	createList() {
 		console.log('in create list')
-		console.log(this)
-		return this.state.foods.map((food, i) => {
-			console.log(food)
-			return ( 
-				<li key={i}> {food} </li>					
-			)
-		})
+			console.log(this)
+			return this.state.foods.map((food, i) => {
+				console.log(food)
+				return ( 
+					<li key={i}> {food} </li>					
+				       )
+			})
 	}
-	
+
 	render() {	
-			return (
-					<div onClick = {this.props.thankyou}>						
-						<button onClick={ this.props.breakfast }>Are you serving breakfast?</button> 							    			  	     <button onClick={ this.props.lunch }>Are you serving lunch?</button> 						          		      	                  <button onClick={ this.props.dinner }>Are you serving dinner?</button> 									
-						<ul>
+		return (
+				<div onClick = {this.props.thankyou}>						
+					<button onClick={ this.props.breakfast }>Are you serving breakfast?</button> 							    			  		  <button onClick={ this.props.lunch }>Are you serving lunch?</button> 						          		      	                  	    <button onClick={ this.props.dinner }>Are you serving dinner?</button> 									
+				<ul>
 
-							{ this.createList() }
+				{ this.createList() }
 
-						</ul>	
-					</div>
+				</ul>	
+				</div>
 
-			       )
+		       )
 	}
 }
 
@@ -50,16 +50,16 @@ function foodTimes(dispatch) {
 		dinner: function(){
 			alert(' we are not serving dinner' ); 			
 		},
-		lunch: function(){
-			alert(' we are serving lunch' ); 			
+			lunch: function(){
+				alert(' we are serving lunch' ); 			
 
-			dispatch(lunchAction); 
-			
-		},
-		breakfast: function(){
-			alert(' we are not serving breakfast' ); 			
-		}
-	       
+				dispatch(lunchAction); 
+
+			},
+			breakfast: function(){
+				alert(' we are not serving breakfast' ); 			
+			}
+
 	}
 }
 
@@ -68,21 +68,21 @@ function thanks(dispatch){
 		thankyou: function(){ 
 			alert('ok thanks')
 		}
-		
+
 	}
 }
 
 const define_an_action = {
-		type:'use this to finally call the action that will change the state',
-		whatever: {'you':['want',2,'put']},
-		whatIsThis: function(){ console.log(this); }	        	
+	type:'use this to finally call the action that will change the state',
+	whatever: {'you':['want',2,'put']},
+	whatIsThis: function(){ console.log(this); }	        	
 }
 
 
 const lunchAction = {
-		type:'LUNCH TIME',
-		lunchFoods: ['kale soup', 'grilled cheese'] 
-		
+	type:'LUNCH TIME',
+	lunchFoods: ['kale soup', 'grilled cheese'] 
+
 
 } 
 
@@ -92,20 +92,20 @@ const lunchAction = {
 
 // Reducer
 function addStuffToStore(state={foods:['mango']}, action){
-  		console.log('action:');console.log(action)
+	console.log('action:');console.log(action)
 		console.log('state:');console.log(state);
-		switch (action.type) {
-			case 'LUNCH TIME':
-				if(action.lunchFoods){
-					state.foods = [...state.foods, ...action.lunchFoods]
+	switch (action.type) {
+		case 'LUNCH TIME':
+			if(action.lunchFoods){
+				state.foods = [...state.foods, ...action.lunchFoods]
 					console.log(state);
-					return state;
-				}
-					
-			default:
-				return state
+				return state;
+			}
 
-		}
+		default:
+			return state
+
+	}
 
 }
 
@@ -114,27 +114,27 @@ function addStuffToStore(state={foods:['mango']}, action){
 const foodStore = createStore(addStuffToStore) 
 
 
-function food(state){
-	console.log('food')	
-	console.log(state);
-	//state.foods = stuff;
-	return {
-		state
+	function food(state){
+		console.log('food')	
+			console.log(state);
+		//state.foods = stuff;
+		return {
+			state
+		}
+
 	}
-	
-}
 
 
 // Connected Component
 const App = connect(
 		food,
 		foodTimes
-		
+
 		)(anyComponent)
 
 ReactDOM.render(
 		<Provider store={foodStore}>
-			<App/> 
+		<App/> 
 		</Provider>,
 		document.getElementById('root')
 	       )
