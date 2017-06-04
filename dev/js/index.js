@@ -5,11 +5,20 @@ import { createStore } from 'redux'
 import { Provider, connect } from 'react-redux'
 // React component
 class anyComponent extends Component {
+  constructor(props) {
+    super(props);
+	
+    this.state = {
+      foods: []
+    };
+
+  }
+
 
 	createList() {
 		console.log('in create list')
 		console.log(this)
-		return this.props.state.foods.map((food, i) => {
+		return this.state.foods.map((food, i) => {
 			console.log(food)
 			return ( 
 				<li key={i}> {food} </li>					
@@ -85,15 +94,10 @@ const lunchAction = {
 function addStuffToStore(state={foods:['mango']}, action){
   		console.log('action:');console.log(action)
 		console.log('state:');console.log(state);
-		//if(action.lunchFoods){
-		//	let newState = [...state.foods, ...action.lunchFoods]
-		//	console.log(newState);
-				
-		//}
 		switch (action.type) {
 			case 'LUNCH TIME':
 				if(action.lunchFoods){
-					state.foods = [...state.foods, ...action.lunchFoods];
+					state.foods = [...state.foods, ...action.lunchFoods]
 					console.log(state);
 					return state;
 				}
@@ -123,8 +127,9 @@ function food(state){
 
 // Connected Component
 const App = connect(
-		foodTimes,		
-		food	
+		food,
+		foodTimes
+		
 		)(anyComponent)
 
 ReactDOM.render(
