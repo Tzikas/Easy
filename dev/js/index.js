@@ -11,13 +11,15 @@ class anyComponent extends Component {
 		this.state = {
 			foods: []
 		};
+		this.setLunch = this.setLunch.bind(this);
+		
 
 	}
 
 
 	createList() {
 		console.log('in create list')
-			console.log(this)
+		console.log(this)
 			return this.state.foods.map((food, i) => {
 				console.log(food)
 				return ( 
@@ -29,15 +31,25 @@ class anyComponent extends Component {
 	render() {	
 		return (
 				<div onClick = {this.props.thankyou}>						
-					<button onClick={ this.props.breakfast }>Are you serving breakfast?</button> 							    			  		  <button onClick={ this.props.lunch }>Are you serving lunch?</button> 						          		      	                  	    <button onClick={ this.props.dinner }>Are you serving dinner?</button> 									
-				<ul>
+					<button onClick={ this.props.breakfast }>Are you serving breakfast?</button> 							    			  		  <button onClick={ this.props.lunch }>Are you serving lunch?</button> 	
+					<button onClick={ this.setLunch }>Are you settingLunch?</button> 					
+					<button onClick={ this.props.dinner }>Are you serving dinner?</button> 									
+					<ul>
 
-				{ this.createList() }
+						{ this.createList() }
 
-				</ul>	
+					</ul>	
 				</div>
 
 		       )
+	}
+
+	setLunch(dispatch){
+		alert(' we are serving lunch' ); 			
+		console.log(this)
+		//this.setState({'foods':this.state.foods})
+			
+		this.setState({'foods':['a','b']})
 	}
 }
 
@@ -93,12 +105,14 @@ const lunchAction = {
 // Reducer
 function addStuffToStore(state={foods:['mango']}, action){
 	console.log('action:');console.log(action)
-		console.log('state:');console.log(state);
+	console.log('state:');console.log(state);
+	console.log(this)
 	switch (action.type) {
 		case 'LUNCH TIME':
 			if(action.lunchFoods){
 				state.foods = [...state.foods, ...action.lunchFoods]
-					console.log(state);
+				console.log(state);
+
 				return state;
 			}
 
@@ -114,15 +128,15 @@ function addStuffToStore(state={foods:['mango']}, action){
 const foodStore = createStore(addStuffToStore) 
 
 
-	function food(state){
-		console.log('food')	
-			console.log(state);
-		//state.foods = stuff;
-		return {
-			state
-		}
-
+function food(state){
+	console.log('food')	
+	console.log(state);
+	//state.foods = stuff;
+	return {
+		state
 	}
+
+}
 
 
 // Connected Component
@@ -131,6 +145,7 @@ const App = connect(
 		foodTimes
 
 		)(anyComponent)
+
 
 ReactDOM.render(
 		<Provider store={foodStore}>
