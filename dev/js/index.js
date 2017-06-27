@@ -92,9 +92,9 @@ class whateverClass extends Component {
 						<h1 style={style}>{this.state.counter}</h1>
 						<h2>{this.props.current}</h2>
 						<h2 style={style} >{this.state.a}</h2>
-						<Welcome /> 
-					
-						<newComponent/>
+						
+						
+						<Welcome name="yo" color={this.color} add={this.add} inside={this.props.insideAction} />
 					</div>
 			       )
 	}
@@ -120,11 +120,18 @@ class newComponent extends Component {
 class Welcome extends React.Component {
  	constructor (props, context) {
     		super(props, context)
+		console.log("Welcome");
 		console.log(this, props, context)
 	}
 	
   render() {
-    return <h1>Hello, {this.props.name}</h1>;
+    return (<div>
+		    <h1>Hello, {this.props.name}</h1>
+		    <button onClick={this.props.add}> + </button>	
+		    <button onClick={this.props.inside}>inside </button>	
+    
+    
+       	</div>) 
   }
 }
 
@@ -169,6 +176,16 @@ const defineAnotherAction = {
 }
 
 
+const colorAction = {
+	type:'color action',
+	changeColor: function(){
+		console.log('%c changeColor ','background: pink; color: #bada55'); 
+		return state={'current':'red'}; 			
+		
+	}
+
+} 
+
 function reducer(state={current:'nada'}, action){
 	//console.log('- called reducer ',state,action) 
 	switch (action.type) {
@@ -180,7 +197,13 @@ function reducer(state={current:'nada'}, action){
 		case 'call another action':
 			action.another()
 			//return this.setState({'current':'red'})	
-			return state={'current':'red'}			
+			return state={'current':'red'}
+
+		case 'color action':
+			var state = action.changeColor()
+			//return state;
+			return state={'current':'red'}
+			
 		default:
   			return state;
 	}
